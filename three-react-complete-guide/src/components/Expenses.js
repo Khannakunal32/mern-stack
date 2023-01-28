@@ -42,12 +42,84 @@
 
 // export default Expenses;
 
-// (9) we use ternary operator to show a <p> message list with empty list in filteredExpenses
-import ExpensesItem from "./ExpensesItem";
+// // (9) we use ternary operator to show a <p> message list with empty list in filteredExpenses
+// import ExpensesItem from "./ExpensesItem";
+// import "./Expenses.css";
+// import Card from "./Card";
+// import ExpensesFitler from "./NewExpense/ExpesesFilter";
+// import { useState } from "react";
+
+// const Expenses = (props) => {
+//   const [filteredYear, setFilteredYear] = useState("2020");
+
+//   const filterChangeHandler = (selectedYear) => {
+//     setFilteredYear(selectedYear);
+//   };
+
+//   const filteredExpenses = props.items.filter((expense) => {
+//     return expense.date.getFullYear().toString() === filteredYear;
+//   });
+
+//   // (12) 3rd and cleanes method
+//   let expenseContent = <p>Empty List</p>;
+
+//   if(filteredExpenses.length > 0){
+//     expenseContent = filteredExpenses.map((element) =>
+//       <ExpensesItem
+//             key={element.id}
+//             title={element.title}
+//             amount={+element.amount}
+//             date={element.date}
+//           ></ExpensesItem>
+//     )
+//   }
+
+//   return (
+//     <Card className="expenses">
+//       <ExpensesFitler
+//         selected={filteredYear}
+//         onChangeFilter={filterChangeHandler}
+//       />
+
+//       {/* (10) 1st method */}
+//       {/* {filteredExpenses.length === 0 ? (
+//         <p>Empty List</p>
+//       ) : (
+//         filteredExpenses.map((element) => (
+//           <ExpensesItem
+//             key={element.id}
+//             title={element.title}
+//             amount={+element.amount}
+//             date={element.date}
+//           ></ExpensesItem>
+//         ))
+//       )} */}
+
+//       {/* (11) 2nd method if first condition before && is true then second executes and become true*/}
+//       {/* {filteredExpenses.length === 0 && <p>Empty list</p>}
+//       {filteredExpenses.length > 0 &&
+//         filteredExpenses.map((element) => (
+//           <ExpensesItem
+//             key={element.id}
+//             title={element.title}
+//             amount={+element.amount}
+//             date={element.date}
+//           ></ExpensesItem>
+//         ))} */}
+
+//         {/* (13) Now go to ExpenseList.js for shortening this code and splitting into anther componenet */}
+//         {expenseContent}
+//     </Card>
+//   );
+// };
+
+// export default Expenses;
+
 import "./Expenses.css";
 import Card from "./Card";
 import ExpensesFitler from "./NewExpense/ExpesesFilter";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import ExpensesList from "./ExpensesList";
 
 const Expenses = (props) => {
   const [filteredYear, setFilteredYear] = useState("2020");
@@ -60,56 +132,16 @@ const Expenses = (props) => {
     return expense.date.getFullYear().toString() === filteredYear;
   });
 
-  // (12) 3rd and cleanes method
-  let expenseContent = <p>Empty List</p>;
-
-  if(filteredExpenses.length > 0){
-    expenseContent = filteredExpenses.map((element) => 
-      <ExpensesItem
-            key={element.id}
-            title={element.title}
-            amount={+element.amount}
-            date={element.date}
-          ></ExpensesItem>
-    )
-  }
-
   return (
-    <Card className="expenses">
-      <ExpensesFitler
-        selected={filteredYear}
-        onChangeFilter={filterChangeHandler}
-      />
-
-      {/* (10) 1st method */}
-      {/* {filteredExpenses.length === 0 ? (
-        <p>Empty List</p>
-      ) : (
-        filteredExpenses.map((element) => (
-          <ExpensesItem
-            key={element.id}
-            title={element.title}
-            amount={+element.amount}
-            date={element.date}
-          ></ExpensesItem>
-        ))
-      )} */}
-
-      {/* (11) 2nd method if first condition before && is true then second executes and become true*/}
-      {/* {filteredExpenses.length === 0 && <p>Empty list</p>}
-      {filteredExpenses.length > 0 &&
-        filteredExpenses.map((element) => (
-          <ExpensesItem
-            key={element.id}
-            title={element.title}
-            amount={+element.amount}
-            date={element.date}
-          ></ExpensesItem>
-        ))} */}
-
-        {/* (13) */}
-        {expenseContent}
-    </Card>
+    <li>
+      <Card className="expenses">
+        <ExpensesFitler
+          selected={filteredYear}
+          onChangeFilter={filterChangeHandler}
+        />
+        <ExpensesList items={filteredExpenses}></ExpensesList>
+      </Card>
+    </li>
   );
 };
 
