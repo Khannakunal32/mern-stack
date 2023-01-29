@@ -120,9 +120,10 @@ import Card from "./Card";
 import ExpensesFitler from "./NewExpense/ExpesesFilter";
 import { useState } from "react";
 import ExpensesList from "./ExpensesList";
+import ExpenseChart from "./ExpensesChart";
 
 const Expenses = (props) => {
-  const [filteredYear, setFilteredYear] = useState("2020");
+  const [filteredYear, setFilteredYear] = useState("2021");
 
   const filterChangeHandler = (selectedYear) => {
     setFilteredYear(selectedYear);
@@ -139,10 +140,13 @@ const Expenses = (props) => {
           selected={filteredYear}
           onChangeFilter={filterChangeHandler}
         />
-        <ExpensesList items={filteredExpenses}></ExpensesList>
+        <ExpenseChart expenses={filteredExpenses} />
+        {/* (16) */}
+        <ExpensesList items={filteredExpenses} />
       </Card>
     </li>
   );
 };
+// (17) now go to Chart-> chart.js
 
 export default Expenses;
