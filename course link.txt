@@ -1,0 +1,7 @@
+watch nodejs tutorial  - https://www.youtube.com/watch?v=H9M02of22z4
+
+1. npm init
+2. fill details licence MIT
+3. go to folder of project
+4. npm i express
+5. npm i -D nodemon
