@@ -24,9 +24,8 @@ const registerUser = AsyncHandler(async (req, res) => {
     throw new Error("User already exists");
   }
 
-  // Hash password
+  // Hash password ie one way hashing cannot be reverse engineered
   const hashedPassword = await bcrypt.hash(password, 10);
-
   // creating user
   const user = await User.create({
     name,
@@ -53,6 +52,7 @@ const loginUser = AsyncHandler(async (req, res) => {
     throw new Error("User not found");
   }
 
+  console.log(user.id);
   //compare password with hashed password
   if (await bcrypt.compare(password, user.password)) {
     // generating access token
@@ -65,30 +65,24 @@ const loginUser = AsyncHandler(async (req, res) => {
         },
       },
       process.env.JWT_SECRET,
-      { expiresIn: "15s" }
+      { expiresIn: "25m" }
     );
-    res.status(200).json(accessToken    );
+    res.status(200).json({accessToken: accessToken});
   }
-  res.status(401).send("user password wrong, unothorized");
+  res.status(401);
+  throw new Error("user password wrong, unothorized")
 });
 
 //@desc get current user
 //@route GET /api/users/current
 //@access Public
 const getCurrentUser = AsyncHandler(async (req, res) => {
-  const { name, email, password } = req.body;
-  // checking for all fields are present
-  if (!name || !email || !password) {
-    res.status(400);
-    throw new Error("Please provide name, email and password");
-  }
 
-  const user = await User.findOne({ email });
-  if (!user) {
+  if (!req.user) {
     res.status(404);
-    throw new Error("User not found");
+    throw new Error("No user logged in");
   }
-  res.status(200).send(user);
+  res.status(200).send(req.user);
 });
 
 //@desc deletes current user
