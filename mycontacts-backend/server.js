@@ -7,7 +7,7 @@ const app = express();
 
 // connect to database
 connectDB();
- 
+
 const port = process.env.PORT || 5000;
 
 // middleware to pass json request body
@@ -24,6 +24,9 @@ app.use("/api/second", require("./routes/secondExampleRoutes"));
 
 // 3 method using routes with controller
 app.use("/api/contacts", require("./routes/contactRoutes"));
+
+// New route for authentication service
+app.use("/api/users", require("./routes/userRoutes"));
 
 // error handler middleware
 app.use(errorHandler);
