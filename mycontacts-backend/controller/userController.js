@@ -3,13 +3,15 @@ const AsyncHandler = require("express-async-handler");
 const bcrypt = require("bcrypt");
 // import model of user
 const User = require("../models/userModel");
+// import jsonwebtoken
+const jwt = require("jsonwebtoken");
 
 //@desc register user
 //@route POST /api/users/register
 //@access Public
 const registerUser = AsyncHandler(async (req, res) => {
-  const { name, email, password } = req.body;
   // checking for all fields are present
+  const { name, email, password } = req.body;
   if (!name || !email || !password) {
     res.status(400);
     throw new Error("Please provide name, email and password");
@@ -38,7 +40,36 @@ const registerUser = AsyncHandler(async (req, res) => {
 //@route GET /api/users/login
 //@access Public
 const loginUser = AsyncHandler(async (req, res) => {
-  res.status(200).send("user logged in");
+  // checking for all fields are present
+  const { email, password } = req.body;
+  if (!email || !password) {
+    res.status(400);
+    throw new Error("Please provide email and password to login");
+  }
+
+  const user = await User.findOne({ email });
+  if (!user) {
+    res.status(404);
+    throw new Error("User not found");
+  }
+
+  //compare password with hashed password
+  if (await bcrypt.compare(password, user.password)) {
+    // generating access token
+    const accessToken = jwt.sign(
+      {
+        user: {
+          id: user.id,
+          name: user.name,
+          email: user.email,
+        },
+      },
+      process.env.JWT_SECRET,
+      { expiresIn: "15s" }
+    );
+    res.status(200).json(accessToken    );
+  }
+  res.status(401).send("user password wrong, unothorized");
 });
 
 //@desc get current user
