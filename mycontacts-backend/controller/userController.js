@@ -89,17 +89,25 @@ const getCurrentUser = AsyncHandler(async (req, res) => {
 //@route DELETE /api/users/current
 //@access Public
 const deleteCurrentUser = AsyncHandler(async (req, res) => {
-  const { name, email, password } = req.body;
+    if(!req.user){
+        res.status(404);
+        throw new Error("No user logged in to delete");
+    }
+    if(req.user.email != "admin@gmail.com"){
+        res.status(401);
+        throw new Error("Only admin can delete user");
+    }
+  const {email} = req.body;
   // checking for all fields are present
-  if (!name || !email || !password) {
+  if (!email) {
     res.status(400);
-    throw new Error("Please provide name, email and password");
+    throw new Error("Please provide email to delete");
   }
 
   const user = await User.findOne({ email });
   if (!user) {
     res.status(404);
-    throw new Error("User not found");
+    throw new Error(`${email} not found`);
   }
   await User.findOneAndRemove({ email });
 

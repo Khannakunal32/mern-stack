@@ -7,8 +7,16 @@ const {
   createContact,
   updateContact,
   deleteContact,
+  getContactsAdmin,
 } = require("../controller/contactController");
- 
+const validateTokenHandler = require("../middleware/validateTokenHandler");
+
+// uses validateTokenHandler middleware for all routes of contact
+router.use(validateTokenHandler);
+
+// GET /api/contacts/admin
+router.route("/admin").get(getContactsAdmin);
+
 // GET /api/contacts and POST /api/contacts
 router.route("/").get(getContacts).post(createContact);
 
