@@ -29,15 +29,6 @@ const FormControl = styled.div`
     background: #fad0ec;
     border-color: #8b005d;
   }
-
-  &.invalid input {
-    border-color: #dc3545;
-    background: #ffd7d9;
-  }
-
-  &.invalid label {
-    color: #dc3545;
-  }
 `;
 
 const CourseInput = (props) => {
