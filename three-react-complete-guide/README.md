@@ -1,5 +1,5 @@
 # Output
-![alt text](https://github.com/Khannakunal32/Notes-React---The-Complete-Guide-incl-Hooks-React-Router-Redux-/blob/main/three-react-complete-guide/public/Output.png?raw=true)
+![alt text](https://github.com/Khannakunal32/mern-stack/blob/01-getting-started/three-react-complete-guide/public/Output.png?raw=true)
 
 <br>
 
